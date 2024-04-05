@@ -1,0 +1,66 @@
+#VRML_SIM R2023b utf8
+
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/floors/protos/RectangleArena.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/appearances/protos/Parquetry.proto"
+
+WorldInfo {
+}
+Viewpoint {
+  orientation 0.1821037278230466 -0.24303112604455993 -0.952771800635631 4.381116819505729
+  position 5.941851636825546 -19.89208412653244 11.329989728792757
+}
+Solid {
+  translation 0 -1.20614e-05 2.57
+  rotation 1 0 0 -3.1415853071795863
+  children [
+    Shape {
+      geometry Plane {
+        size 14 14
+      }
+    }
+  ]
+  name "ceiling"
+}
+DEF WindowsAndDoors Shape {
+  appearance PBRAppearance {
+    baseColor 0.803922 0.670588 0.560784
+    roughness 1
+  }
+  geometry Mesh {
+    url [
+      "../source files/meshes/villanueva.dae"
+    ]
+    materialIndex 0
+  }
+  castShadows FALSE
+}
+DirectionalLight {
+  ambientIntensity 0.2
+  direction 0 1 0
+  castShadows TRUE
+}
+DEF Walls Shape {
+  appearance PBRAppearance {
+    roughness 1
+  }
+  geometry Mesh {
+    url [
+      "../source files/meshes/villanueva.dae"
+    ]
+    materialIndex 1
+  }
+  castShadows FALSE
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+  translation 0 -0.27 0
+  floorSize 14 13
+  floorAppearance Parquetry {
+    type "light strip"
+  }
+}
