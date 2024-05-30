@@ -1,7 +1,7 @@
 CommonBehavior.Endpoints=tcp -p 10000
 
 # Endpoints for implements interfaces
-VisualElements.Endpoints=tcp -p 0
+VisualElements.Endpoints=tcp -p 10002
 
 
 

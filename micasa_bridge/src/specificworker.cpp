@@ -71,24 +71,15 @@ void SpecificWorker::initialize(int period)
 		timer.start(Period);
 	}
 
+    robot = new webots::Supervisor();
+
 }
 
 void SpecificWorker::compute()
 {
-	//computeCODE
-	//QMutexLocker locker(mutex);
-	//try
-	//{
-	//  camera_proxy->getYImage(0,img, cState, bState);
-	//  memcpy(image_gray.data, &img[0], m_width*m_height*sizeof(uchar));
-	//  searchTags(image_gray);
-	//}
-	//catch(const Ice::Exception &e)
-	//{
-	//  std::cout << "Error reading from Camera" << e << std::endl;
-	//}
-	
-	
+	parseHumanObjects();
+
+    robot->step(1);
 }
 
 int SpecificWorker::startup_check()
@@ -98,16 +89,55 @@ int SpecificWorker::startup_check()
 	return 0;
 }
 
+void SpecificWorker::parseHumanObjects() {
+
+    webots::Node* crowdNode = robot->getFromDef("CROWD");
+
+    if(!crowdNode){
+
+        static bool ErrorFlag = false;
+        if(!ErrorFlag){
+            qInfo() << "CROWD Node not found.";
+            ErrorFlag = true;
+        }
+
+        return;
+    }
+
+    webots::Field* childrenField = crowdNode->getField("children");
+    for (int i = 0; i < childrenField->getCount(); ++i)
+    {
+        std::string nodeDEF = childrenField->getMFNode(i)->getDef();
+        if(nodeDEF.find("HUMAN_") != std::string::npos)
+            humanObjects[i] = childrenField->getMFNode(i)->getPosition();
+    }
+}
+
 
 RoboCompVisualElements::TObjects SpecificWorker::VisualElements_getVisualObjects(RoboCompVisualElements::TObjects objects)
 {
-//implementCODE
+    RoboCompVisualElements::TObjects objectsList;
 
+    for (const auto &entry : humanObjects) {
+        RoboCompVisualElements::TObject object;
+
+        int id = entry.first;
+        const double *position = entry.second;
+
+        object.id = id;
+        object.x = position[0];
+        object.y = position[1];
+
+        objectsList.objects.push_back(object);
+
+        std::cout << "ID: " << id << " position: " << object.x << " " << object.y << std::endl;
+    }
+
+    return objectsList;
 }
 
 void SpecificWorker::VisualElements_setVisualObjects(RoboCompVisualElements::TObjects objects)
 {
-//implementCODE
 
 }
 

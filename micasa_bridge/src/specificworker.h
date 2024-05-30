@@ -28,6 +28,7 @@
 #define SPECIFICWORKER_H
 
 #include <genericworker.h>
+#include <webots/Supervisor.hpp>
 
 class SpecificWorker : public GenericWorker
 {
@@ -39,6 +40,8 @@ public:
 
 	RoboCompVisualElements::TObjects VisualElements_getVisualObjects(RoboCompVisualElements::TObjects objects);
 	void VisualElements_setVisualObjects(RoboCompVisualElements::TObjects objects);
+    webots::Supervisor* robot;
+
 
 
 public slots:
@@ -47,6 +50,9 @@ public slots:
 	void initialize(int period);
 private:
 	bool startup_check_flag;
+
+    void parseHumanObjects();
+    std::map<int, const double*> humanObjects;
 
 };
 
