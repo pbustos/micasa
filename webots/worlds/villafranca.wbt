@@ -4,12 +4,49 @@ EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/project
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/floors/protos/RectangleArena.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/appearances/protos/Parquetry.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/humans/skin_animated_humans/protos/CharacterSkin.proto"
 
 WorldInfo {
 }
 Viewpoint {
-  orientation 0.1821037278230466 -0.24303112604455993 -0.952771800635631 4.381116819505729
-  position 5.941851636825546 -19.89208412653244 11.329989728792757
+  orientation -0.20949925987441578 0.3798583262343387 0.901009274149006 1.5763551854786588
+  position 0.28420969810457253 -20.86652977277834 16.70386683165608
+}
+DEF CROWD Group {
+  children [
+    DEF HUMAN_1 Robot {
+      translation -0.659996 -1.56 0
+      rotation 0 0 -1 -5.307179586466759e-06
+      children [
+        CharacterSkin {
+          model "Sophia"
+        }
+      ]
+      name "robot(1)"
+    }
+    DEF HUMAN_2 Robot {
+      translation 1.38 3.75 -0.01
+      children [
+        CharacterSkin {
+        }
+      ]
+      name "robot(2)"
+    }
+    DEF HUMAN_3 Robot {
+      translation 4.07 3.75 0.04
+      rotation 0 0 1 3.14159
+      children [
+        CharacterSkin {
+          model "Robert"
+        }
+      ]
+      name "robot(3)"
+    }
+  ]
+}
+DEF SceneController Robot {
+  controller "<extern>"
+  supervisor TRUE
 }
 Solid {
   translation 0 -1.20614e-05 2.57
