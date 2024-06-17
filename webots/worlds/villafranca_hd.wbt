@@ -1,0 +1,151 @@
+#VRML_SIM R2023b utf8
+
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+
+WorldInfo {
+}
+Viewpoint {
+  orientation 0.3628824834051103 -0.19644826890862765 -0.9108920797111715 4.285818399015043
+  position 4.159131834422889 -13.858907047481782 13.806607900366702
+}
+DEF ENVIROMENT Solid {
+  rotation 0 0 1 -5.307179586466759e-06
+  children [
+    DEF PISO Group {
+      children [
+        DEF KNOB Shape {
+          appearance PBRAppearance {
+            baseColor 0 0 0
+            roughness 1
+            metalness 0.95
+          }
+          geometry Mesh {
+            url [
+              "../source files/meshes/villafranca.dae"
+            ]
+            materialIndex 3
+          }
+        }
+        DEF DOOR_WINDOWS Shape {
+          appearance PBRAppearance {
+            baseColor 0.752941 0.74902 0.737255
+            baseColorMap ImageTexture {
+              url [
+                "../source files/meshes/rosewood_veneer1_diff_1k.jpg"
+              ]
+            }
+            roughness 1
+          }
+          geometry Mesh {
+            url [
+              "../source files/meshes/villafranca.dae"
+            ]
+            materialIndex 6
+          }
+        }
+        DEF CRISTAL Shape {
+          appearance PBRAppearance {
+            transparency 0.7
+            roughness 1
+          }
+          geometry Mesh {
+            url [
+              "../source files/meshes/villafranca.dae"
+            ]
+            materialIndex 5
+          }
+        }
+        DEF FLOOR_PATIO Shape {
+          appearance PBRAppearance {
+            baseColorMap ImageTexture {
+              url [
+                "../source files/meshes/patio_tiles_diff_1k.jpg"
+              ]
+              filtering 1
+            }
+            roughness 1
+          }
+          geometry Mesh {
+            url [
+              "../source files/meshes/villafranca.dae"
+            ]
+            materialIndex 4
+          }
+        }
+        DEF FLOOR_MARBLE Shape {
+          appearance PBRAppearance {
+            baseColorMap ImageTexture {
+              url [
+                "../source files/meshes/marble_01_diff_1k.jpg"
+              ]
+              filtering 1
+            }
+            roughness 1
+          }
+          geometry Mesh {
+            url [
+              "../source files/meshes/villafranca.dae"
+            ]
+            materialIndex 2
+          }
+        }
+        DEF FLOOR_LAMINATE Shape {
+          appearance PBRAppearance {
+            baseColorMap ImageTexture {
+              url [
+                "../source files/meshes/beige_wall_001_diff_1k.jpg"
+              ]
+              filtering 1
+            }
+            roughness 1
+            roughnessMap ImageTexture {
+              url [
+                "../source files/meshes/beige_wall_001_rough_1k.jpg"
+              ]
+            }
+            normalMap ImageTexture {
+              url [
+                "../source files/meshes/beige_wall_001_nor_gl_1k.png"
+              ]
+            }
+          }
+          geometry Mesh {
+            url [
+              "../source files/meshes/villafranca.dae"
+            ]
+            materialIndex 0
+          }
+        }
+        DEF WALLS Shape {
+          appearance PBRAppearance {
+            baseColorMap ImageTexture {
+              url [
+                "../source files/meshes/laminate_floor_02_diff_1k.jpg"
+              ]
+              filtering 1
+            }
+            roughness 1
+          }
+          geometry Mesh {
+            url [
+              "../source files/meshes/villafranca.dae"
+            ]
+            materialIndex 1
+          }
+        }
+      ]
+    }
+  ]
+}
+DEF SceneController Robot {
+  controller "<extern>"
+  supervisor TRUE
+}
+TexturedBackground {
+  luminosity 8
+}
+TexturedBackgroundLight {
+  luminosity 2
+  castShadows FALSE
+}
