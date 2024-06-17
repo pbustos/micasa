@@ -9,8 +9,38 @@ EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/project
 WorldInfo {
 }
 Viewpoint {
-  orientation -0.20949925987441578 0.3798583262343387 0.901009274149006 1.5763551854786588
-  position 0.28420969810457253 -20.86652977277834 16.70386683165608
+  orientation 0.6342561938849615 0.4787191556392959 -0.607080761136903 2.056405724802295
+  position 0.6798907186737102 -4.425023812111943 37.893839236385226
+}
+DEF GRABBABLE_ENVIROMENT Solid {
+  translation 5.18 -5.98 0
+  children [
+    DEF Walls Shape {
+      appearance PBRAppearance {
+        roughness 1
+      }
+      geometry Mesh {
+        url [
+          "../source files/meshes/villanueva.dae"
+        ]
+        materialIndex 1
+      }
+      castShadows FALSE
+    }
+    DEF WindowsAndDoors Shape {
+      appearance PBRAppearance {
+        baseColor 0.803922 0.670588 0.560784
+        roughness 1
+      }
+      geometry Mesh {
+        url [
+          "../source files/meshes/villanueva.dae"
+        ]
+        materialIndex 0
+      }
+      castShadows FALSE
+    }
+  ]
 }
 DEF CROWD Group {
   children [
@@ -60,42 +90,17 @@ Solid {
   ]
   name "ceiling"
 }
-DEF WindowsAndDoors Shape {
-  appearance PBRAppearance {
-    baseColor 0.803922 0.670588 0.560784
-    roughness 1
-  }
-  geometry Mesh {
-    url [
-      "../source files/meshes/villanueva.dae"
-    ]
-    materialIndex 0
-  }
-  castShadows FALSE
-}
 DirectionalLight {
   ambientIntensity 0.2
   direction 0 1 0
   castShadows TRUE
-}
-DEF Walls Shape {
-  appearance PBRAppearance {
-    roughness 1
-  }
-  geometry Mesh {
-    url [
-      "../source files/meshes/villanueva.dae"
-    ]
-    materialIndex 1
-  }
-  castShadows FALSE
 }
 TexturedBackground {
 }
 TexturedBackgroundLight {
 }
 RectangleArena {
-  translation 0 -0.27 0
+  translation 5.21 -5.55 0
   floorSize 14 13
   floorAppearance Parquetry {
     type "light strip"
