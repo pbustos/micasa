@@ -6,11 +6,11 @@ EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/project
 WorldInfo {
 }
 Viewpoint {
-  orientation 0.3628824834051103 -0.19644826890862765 -0.9108920797111715 4.285818399015043
-  position 4.159131834422889 -13.858907047481782 13.806607900366702
+  orientation 0.5719671071847565 -0.5110466805479048 -0.641626775158011 4.324178864835372
+  position 2.490860161435438 -14.608833062846386 62.193873593463216
 }
-DEF ENVIROMENT Solid {
-  rotation 0 0 1 -5.307179586466759e-06
+DEF GRABBABLE_ENVIROMENT Solid {
+  translation 5.18 -5.98 0
   children [
     DEF PISO Group {
       children [
@@ -133,6 +133,119 @@ DEF ENVIROMENT Solid {
             ]
             materialIndex 1
           }
+        }
+      ]
+    }
+    DEF CROWD_CONTROL Group {
+      children [
+        DEF CROWD Group {
+          children [
+            DEF HUMAN_3 Robot {
+              translation 3.97 3.47 0.04
+              rotation 0 0 1 3.14159
+              children [
+                CharacterSkin {
+                  model "Robert"
+                }
+              ]
+              name "HUMAN_3"
+              controller "crowd_controller"
+              supervisor TRUE
+            }
+            DEF HUMAN_2 Robot {
+              translation -3.6 3.89 -0.01
+              children [
+                CharacterSkin {
+                }
+              ]
+              name "HUMAN_2"
+              controller "crowd_controller"
+              supervisor TRUE
+              selfCollision TRUE
+            }
+            DEF HUMAN_1 Robot {
+              translation -3.76997 -3.24 0
+              rotation 0 0 -1 -5.307179586466759e-06
+              children [
+                CharacterSkin {
+                  model "Sophia"
+                }
+              ]
+              name "HUMAN_1"
+              controller "crowd_controller"
+              supervisor TRUE
+            }
+          ]
+        }
+        DEF WAYPOINTS Group {
+          children [
+            DEF WAYPOINT_1 Pose {
+              translation -1.37 0 0
+              rotation 0 0 1 1.5708
+            }
+            DEF WAYPOINT_2 Pose {
+              translation -1.55 1.96 0
+              rotation 0 0 1 1.5708
+            }
+            DEF WAYPOINT_3 Pose {
+              translation -2.3471 0.0149999 0
+              rotation 0 0 1 3.14159
+            }
+            DEF WAYPOINT_4 Pose {
+              translation -3.54419 -0.940445 0
+              rotation 0 0 1 2.35619
+            }
+            DEF WAYPOINT_5 Pose {
+              translation -2.71 1.20001 0
+              rotation 0 0 1 3.14159
+            }
+            DEF WAYPOINT_6 Pose {
+              translation -3.81 1.27 0
+              rotation 0 0 1 3.14159
+            }
+            DEF WAYPOINT_7 Pose {
+              translation -2.42 3.04 0
+              rotation 0 0 1 1.5708
+            }
+            DEF WAYPOINT_8 Pose {
+              translation -3.6 5.14 0
+              rotation 0 0 1 1.5708
+            }
+            DEF WAYPOINT_9 Pose {
+              translation -2.14 -2.5 0
+              rotation 0 0 1 -1.5707953071795862
+            }
+            DEF WAYPOINT_10 Pose {
+              translation 0.89 -0.09 0
+              rotation 0 0 1 -1.5707953071795862
+            }
+            DEF WAYPOINT_11 Pose {
+              translation 0.465449 -2.07857 0
+              rotation 0 0 1 -1.8325953071795862
+            }
+            DEF WAYPOINT_12 Pose {
+              translation 1.82 -0.17 0
+            }
+            DEF WAYPOINT_13 Pose {
+              translation 1.91 -3.87 0
+              rotation 0 0 1 -1.5707953071795862
+            }
+            DEF WAYPOINT_14 Pose {
+              translation 4.17012e-06 -4.09 0
+              rotation 0 0 1 -1.5707953071795862
+            }
+            DEF WAYPOINT_15 Pose {
+              translation 2.2 4.04 0
+              rotation 0 0 -1 -1.5708053071795867
+            }
+            DEF WAYPOINT_16 Pose {
+              translation 4.92 0 0
+            }
+            DEF WAYPOINT_17 Pose {
+              translation 4.96 -6 0
+              rotation 0 0 1 -1.5707953071795862
+            }
+          ]
         }
       ]
     }
