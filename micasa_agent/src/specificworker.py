@@ -28,7 +28,7 @@ import socketio
 import json
 import random
 import math
-from PyQt6.QtCore import QRect, QPointF, QPoint
+from PySide2.QtCore import QRect, QPointF, QPoint
 import numpy as np
 import cv2
 import threading
@@ -82,14 +82,14 @@ class SpecificWorker(GenericWorker):
 
             # self.people_parents_in_graph = {}
 
-            # self.sections = {
-            #     "bathroom": QRect(QPoint(7210, 4120), QSize(2140, 1990)),
-            #     "kitchen": QRect(QPoint(3850, 8370), QSize(3930, 2550)),
-            #     "living_room": QRect(QPoint(0, 8370), QSize(3850, 3100)),
-            #     # "corridor": QPolygonF(),
-            #     "room1": QRect(QPoint(0, 4120), QSize(3780, 4120)),
-            #     "room2": QRect(QPoint(3780, 4120), QSize(3420, 4120))
-            # }
+            self.sections = {
+                "bathroom": QRect(QPoint(7210, 4120), QSize(2140, 1990)),
+                "kitchen": QRect(QPoint(3850, 8370), QSize(3930, 2550)),
+                "living_room": QRect(QPoint(0, 8370), QSize(3850, 3100)),
+                "corridor": QPolygonF(),
+                "room1": QRect(QPoint(0, 4120), QSize(3780, 4120)),
+                "room2": QRect(QPoint(3780, 4120), QSize(3420, 4120))
+            }
 
             # Maybe can be change for a vector and using the index
             self.sections = {
@@ -113,7 +113,7 @@ class SpecificWorker(GenericWorker):
             # Open schematic.jpeg and create a window to draw it scaled by 0.5
             self.img = cv2.imread('schematic.jpeg')
             self.img = cv2.resize(self.img, (0, 0), fx=0.5, fy=0.5)
-            self.person_read = cv2.imread('/home/robolab/Downloads/d.png', cv2.IMREAD_UNCHANGED)
+            self.person_read = cv2.imread('/home/usuario/robocomp/components/micasa/micasa_agent/src/d.png', cv2.IMREAD_UNCHANGED)
             self.alpha = self.person_read[:,:,3]
             self.alpha = np.divide(self.alpha,255.0).astype('uint8')
             self.alpha = cv2.resize(self.alpha, (30, 30), fx=0.5, fy=0.5)
@@ -160,10 +160,10 @@ class SpecificWorker(GenericWorker):
             tx, ty, _ = rt_edge.attrs['rt_translation'].value
             x, y = self.convertir_a_pixeles(tx, ty, 9350, 8370, width, height)
             window = self.img[y:y+self.person.shape[0], x:x+self.person.shape[1]]
-            for c in range(0,3):
-                window[:,:,c] = window[:,:,c]*self.alpha_inv+self.person[:,:,c]*self.alpha
-            # cv2.circle(self.img, (x, y), 15, (255, 0, 255), -1)
-            # cv2.circle(self.img, (x, y), 15, (0, 0, 0), 10) 
+            # for c in range(0,3):
+            #     window[:,:,c] = window[:,:,c]*self.alpha_inv+self.person[:,:,c]*self.alpha
+            cv2.circle(self.img, (x, y), 15, (255, 0, 255), -1)
+            cv2.circle(self.img, (x, y), 15, (0, 0, 0), 10)
             cv2.putText(self.img, person.name, (x, y), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 255), 2)
                     
         # Clean self.img
@@ -198,6 +198,7 @@ class SpecificWorker(GenericWorker):
             if person_node is not None:
                 parent_node_id = person_node.attrs['parent'].value
                 actual_parent_node = self.g.get_node(parent_node_id)
+                print(actual_parent_node)
                 # If person node parent node changes (the person changes of room), update the parent node
                 if actual_parent_node.name != corresponding_key:
                     print(actual_parent_node.name, "is not", corresponding_key)
@@ -256,20 +257,7 @@ class SpecificWorker(GenericWorker):
         def disconnect():
             print('Desconectado del servidor')
 
-        @self.sio.event
-        def say(data):
-            # Manejar el evento 'say'
-            # print(data)
-            try:
-                json_data = json.loads(data)  # Convierte la cadena a un objeto JSON (diccionario en Python)
-                if json_data['datatype'] == 81:
-                    # Check if ['x'] and ['y'] exists in json_data
-                    # print("JSON data", json_data)
-                    if 'x' in json_data and 'y' in json_data:
-                        # print(json_data['tagaddr'] + 'x: ' + str(json_data['x']) + ' y: ' + str(json_data['y']) + ' fence: ' + self.sections[str(json_data['in_fence'])])
-                        self.update_person_tag_edge(json_data['tagaddr'], str(json_data['in_fence']), json_data['x'], json_data['y'])
-            except json.JSONDecodeError:
-                print("Los datos recibidos no son un JSON válido.")
+
     def convertir_a_pixeles(self, x_mm, y_mm, ancho_hab_mm, alto_hab_mm, ancho_img_px, alto_img_px):
         """
         Convierte las coordenadas de una habitación en milímetros a coordenadas de imagen en píxeles.
