@@ -6,8 +6,8 @@ EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/project
 WorldInfo {
 }
 Viewpoint {
-  orientation 0.5719671071847565 -0.5110466805479048 -0.641626775158011 4.324178864835372
-  position 2.490860161435438 -14.608833062846386 62.193873593463216
+  orientation -0.5006102261147606 0.3630329033068751 0.7858730893890624 1.9427706075753595
+  position 5.201231037245262 -15.77154577284573 20.656169516130465
 }
 DEF GRABBABLE_ENVIROMENT Solid {
   translation 5.18 -5.98 0
@@ -144,8 +144,19 @@ DEF GRABBABLE_ENVIROMENT Solid {
               translation 3.97 3.47 0.04
               rotation 0 0 1 3.14159
               children [
-                CharacterSkin {
-                  model "Robert"
+                Shape {
+                  appearance PBRAppearance {
+                    baseColor 0.898039 0.647059 0.0392157
+                    roughness 1
+                    metalness 0
+                    emissiveIntensity 0
+                  }
+                  geometry Mesh {
+                    url [
+                      "../source files/meshes/human_base.dae"
+                    ]
+                  }
+                  isPickable FALSE
                 }
               ]
               name "HUMAN_3"
@@ -155,7 +166,18 @@ DEF GRABBABLE_ENVIROMENT Solid {
             DEF HUMAN_2 Robot {
               translation -3.6 3.89 -0.01
               children [
-                CharacterSkin {
+                Shape {
+                  appearance PBRAppearance {
+                    baseColor 0.14902 0.635294 0.411765
+                    roughness 1
+                    metalness 0
+                  }
+                  geometry Mesh {
+                    url [
+                      "../source files/meshes/human_base.dae"
+                    ]
+                  }
+                  isPickable FALSE
                 }
               ]
               name "HUMAN_2"
@@ -167,8 +189,18 @@ DEF GRABBABLE_ENVIROMENT Solid {
               translation -3.76997 -3.24 0
               rotation 0 0 -1 -5.307179586466759e-06
               children [
-                CharacterSkin {
-                  model "Sophia"
+                Shape {
+                  appearance PBRAppearance {
+                    baseColor 0.101961 0.372549 0.705882
+                    roughness 1
+                    metalness 0
+                  }
+                  geometry Mesh {
+                    url [
+                      "../source files/meshes/human_base.dae"
+                    ]
+                  }
+                  isPickable FALSE
                 }
               ]
               name "HUMAN_1"
