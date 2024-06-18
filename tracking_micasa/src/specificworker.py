@@ -235,17 +235,12 @@ class SpecificWorker(GenericWorker):
         # cv2.waitKey(1)
 
         for obj in self.lista_personas.objects:
-            object_id = obj.id  # Suponiendo que obj tiene un atributo 'id'
+            object_id = obj.id + 300 #offset pq los ids del VisEl son 0,1 y 2 y tienen que ser el 300,301 y 302  # Suponiendo que obj tiene un atributo 'id'
             x_value = obj.x  # Suponiendo que obj tiene un atributo 'x'
             y_value = obj.y  # Suponiendo que obj tiene un atributo 'y'
             # print(x_value,-y_value)
-            self.is_point_in_sections(x_value, -y_value, object_id, self.sections)
-            # self.update_person_tag_edge(object_id,self.sections,x_value,y_value)
-
-
-
-
-            # self.update_person_tag_edge(object_id,self.sections,x_value,y_value)
+            name=self.is_point_in_sections(x_value, -y_value, object_id, self.sections)
+            self.update_person_tag_edge(object_id,name,x_value,y_value)
 
 
 
@@ -310,95 +305,92 @@ class SpecificWorker(GenericWorker):
                 print("Los datos recibidos no son un JSON válido.")
 
 
-    ######################
-    # From the RoboCompVisualElements you can call this methods:
-    # self.visualelements_proxy.getVisualObjects(...)
-    # self.visualelements_proxy.setVisualObjects(...)
 
-    ######################
-    # From the RoboCompVisualElements you can use this types:
-    # RoboCompVisualElements.TRoi
-    # RoboCompVisualElements.TObject
-    # RoboCompVisualElements.TObjects
 
-    def is_point_in_sections(self, x, y,humano, sections):
+    def is_point_in_sections(self, x, y, humano_id , sections):
         point = QPoint(x*1000, y*1000)
-        # print(point)
-        for name, shape in sections.items():
+        for fence, shape in sections.items():
             if isinstance(shape, QRect):
                 if shape.contains(point) == True:
-                    print( f"El {humano} que está en el punto ({x}, {y}) está dentro de la sección '{name}'")
-                    return True
+                    print( f"El {humano_id} que está en el punto ({x}, {y}) está dentro de la sección '{fence}'")
+
+                    return fence
             elif isinstance(shape, QPolygonF):
                 if shape.containsPoint(point,Qt.FillRule.OddEvenFill) == True:  # Qt.FillRule puede ser OddEvenFill o WindingFill
-                    print( f"El {humano} que está en el punto ({x}, {y}) está dentro de la sección '{name}'")
-                    return True
+                    print( f"El {humano_id} que está en el punto ({x}, {y}) está dentro de la sección '{fence}'")
+                    return fence
 
-        print( f"El {humano} que está en el punto ({x}, {y}) no está dentro de ninguna sección")
+        print( f"El {humano_id} que está en el punto ({x}, {y}) no está dentro de ninguna sección")
         return False
 
-    # def update_person_tag_edge(self, humano, fence, x, y):
-    #     """
-    #     Comprueba en cuál de los rectángulos se encuentra el punto (x, y).
-    #
-    #     :param fence:
-    #     :param node:
-    #     :param x: Coordenada x del punto
-    #     :param y: Coordenada y del punto
-    #     :return: Índice del rectángulo que contiene el punto, o None si no está en ninguno
-    #     """
-    #     x = x * 1000
-    #     y = y * 1000
-    #     person_node = self.g.get_nodes_by_type('person')
-    #     print(person_node)
-    #     print(person_node['Name'].value)
-    #     if fence != '':
-    #         # Get the corresponding key
-    #         corresponding_key = self.sections[fence]
-    #         parent_node = self.g.get_node(corresponding_key)
-    #
-    #         # If person node is in the graph
-    #         if person_node is not None:
-    #             parent_node_id = person_node.attrs['parent'].value
-    #             actual_parent_node = self.g.get_node(parent_node_id)
-    #             print(actual_parent_node)
-    #             # If person node parent node changes (the person changes of room), update the parent node
-    #             if actual_parent_node.name != corresponding_key:
-    #                 print(actual_parent_node.name, "is not", corresponding_key)
-    #                 self.g.delete_edge(parent_node_id, person_node.id, "RT")
-    #                 self.rt_api.insert_or_assign_edge_RT(parent_node, person_node.id, [x, y, 0], [0, 0, 0])
-    #                 # Generate random point at certain radius with respect to the parent node
-    #                 angle = random.uniform(0, 2 * math.pi)
-    #                 pos_x = parent_node.attrs['pos_x'].value + self.radius * math.cos(angle)
-    #                 pos_y = parent_node.attrs['pos_y'].value + self.radius * math.sin(angle)
-    #                 person_node.attrs['pos_x'] = Attribute(float(pos_x), self.agent_id)
-    #                 person_node.attrs['pos_y'] = Attribute(float(pos_y), self.agent_id)
-    #                 person_node.attrs['parent'] = Attribute(parent_node.id, self.agent_id)
-    #                 self.g.update_node(person_node)
-    #             # Else, update the edge
-    #             else:
-    #                 self.rt_api.insert_or_assign_edge_RT(actual_parent_node, person_node.id, [x, y, 0], [0, 0, 0])
-    #         # Else, insert node
-    #         else:
-    #             # pos_x = np.random.randint(180, 500)
-    #             # pos_y = np.random.randint(-440, -160)
-    #             angle = random.uniform(0, 2 * math.pi)
-    #             pos_x = parent_node.attrs['pos_x'].value + self.radius * math.cos(angle)
-    #             pos_y = parent_node.attrs['pos_y'].value + self.radius * math.sin(angle)
-    #             new_node = Node(agent_id=self.agent_id, type='person', name=humano)
-    #             new_node.attrs['pos_x'] = Attribute(float(pos_x), self.agent_id)
-    #             new_node.attrs['pos_y'] = Attribute(float(pos_y), self.agent_id)
-    #             new_node.attrs['parent'] = Attribute(parent_node.id, self.agent_id)
-    #             # try:
-    #             id_result = self.g.insert_node(new_node)
-    #             console.print('Person node created -- ', humano, style='red')
-    #             # try:
-    #             self.rt_api.insert_or_assign_edge_RT(parent_node, new_node.id,
-    #                                                  [x, y, .0], [.0, .0, .0])
-    #             # except:
-    #             #     print('Cant update RT edge')
-    #
-    #             print(' inserted new node  ', id_result)
+    def update_person_tag_edge(self, humano, fence, x, y):
+        """
+        Comprueba en cuál de los rectángulos se encuentra el punto (x, y).
+
+        :param fence:
+        :param node:
+        :param x: Coordenada x del punto
+        :param y: Coordenada y del punto
+        :return: Índice del rectángulo que contiene el punto, o None si no está en ninguno
+        """
+        x = x * 1000
+        y = y * 1000
+        # person_node = self.g.get_nodes_by_type('person')
+        person_node=self.g.get_node(humano)
+        # print(person_node)
+        # print(person_node.objects)
+        if fence != '':
+            # Get the corresponding key
+            # corresponding_key = self.sections[fence]
+            # print(corresponding_key,'-------------------------------------')
+            corresponding_key=fence
+            print(corresponding_key,'-------------------------------------')
+
+            parent_node = self.g.get_node(corresponding_key)
+
+            # If person node is in the graph
+            if person_node is not None:
+                parent_node_id = person_node.attrs['parent'].value
+                actual_parent_node = self.g.get_node(parent_node_id)
+                print(actual_parent_node.name,'dklgasladhñls')
+                # If person node parent node changes (the person changes of room), update the parent node
+                if actual_parent_node.name != corresponding_key:
+                    new_parent_node=self.g.get_node(corresponding_key)
+                    print(actual_parent_node.name, "is not", corresponding_key)
+                    self.g.delete_edge(parent_node_id, person_node.id, "RT")
+                    self.rt_api.insert_or_assign_edge_RT(new_parent_node, person_node.id, [x, y, 0], [0, 0, 0])
+                    # Generate random point at certain radius with respect to the parent node
+                    angle = random.uniform(0, 2 * math.pi)
+                    pos_x = new_parent_node.attrs['pos_x'].value + self.radius * math.cos(angle)
+                    pos_y = new_parent_node.attrs['pos_y'].value + self.radius * math.sin(angle)
+                    person_node.attrs['pos_x'] = Attribute(float(pos_x), self.agent_id)
+                    person_node.attrs['pos_y'] = Attribute(float(pos_y), self.agent_id)
+                    person_node.attrs['parent'] = Attribute(new_parent_node.id, self.agent_id)
+                    self.g.update_node(person_node)
+                # Else, update the edge
+                else:
+                    self.rt_api.insert_or_assign_edge_RT(actual_parent_node, person_node.id, [x, y, 0], [0, 0, 0])
+            # Else, insert node
+            # else:
+            #     # pos_x = np.random.randint(180, 500)
+            #     # pos_y = np.random.randint(-440, -160)
+            #     angle = random.uniform(0, 2 * math.pi)
+            #     pos_x = parent_node.attrs['pos_x'].value + self.radius * math.cos(angle)
+            #     pos_y = parent_node.attrs['pos_y'].value + self.radius * math.sin(angle)
+            #     new_node = Node(agent_id=self.agent_id, type='person', name=person_node.attrs['name'].value)
+            #     new_node.attrs['pos_x'] = Attribute(float(pos_x), self.agent_id)
+            #     new_node.attrs['pos_y'] = Attribute(float(pos_y), self.agent_id)
+            #     new_node.attrs['parent'] = Attribute(parent_node.id, self.agent_id)
+            #     # try:
+            #     id_result = self.g.insert_node(new_node)
+            #     console.print('Person node created -- ', humano, style='red')
+            #     # try:
+            #     self.rt_api.insert_or_assign_edge_RT(parent_node, new_node.id,
+            #                                          [x, y, .0], [.0, .0, .0])
+            #     # except:
+            #     #     print('Cant update RT edge')
+            #
+            #     print(' inserted new node  ', id_result)
     # =============== DSR SLOTS  ================
     # =============================================
 
