@@ -6,8 +6,8 @@ EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/project
 WorldInfo {
 }
 Viewpoint {
-  orientation -0.5006102261147606 0.3630329033068751 0.7858730893890624 1.9427706075753595
-  position 5.201231037245262 -15.77154577284573 20.656169516130465
+  orientation -0.5342576477343909 0.4376040813338682 0.7232367757776541 1.919688673308266
+  position 3.6667449520110007 -12.574704016233406 14.084808857343319
 }
 DEF GRABBABLE_ENVIROMENT Solid {
   translation 5.18 -5.98 0
@@ -141,7 +141,7 @@ DEF GRABBABLE_ENVIROMENT Solid {
         DEF CROWD Group {
           children [
             DEF HUMAN_3 Robot {
-              translation 4.07 3.47 0.04
+              translation 4.07 3.47 0.85
               rotation 0 0 1 3.14159
               children [
                 Shape {
@@ -151,12 +151,10 @@ DEF GRABBABLE_ENVIROMENT Solid {
                     metalness 0
                     emissiveIntensity 0
                   }
-                  geometry Mesh {
-                    url [
-                      "../source files/meshes/human_base.dae"
-                    ]
+                  geometry Capsule {
+                    height 1.74
+                    radius 0.15
                   }
-                  isPickable FALSE
                 }
               ]
               name "HUMAN_3"
@@ -164,7 +162,7 @@ DEF GRABBABLE_ENVIROMENT Solid {
               supervisor TRUE
             }
             DEF HUMAN_2 Robot {
-              translation -3.6 3.89 -0.01
+              translation -3.6 3.89 0.85
               children [
                 Shape {
                   appearance PBRAppearance {
@@ -172,10 +170,9 @@ DEF GRABBABLE_ENVIROMENT Solid {
                     roughness 1
                     metalness 0
                   }
-                  geometry Mesh {
-                    url [
-                      "../source files/meshes/human_base.dae"
-                    ]
+                  geometry Capsule {
+                    height 1.74
+                    radius 0.15
                   }
                   isPickable FALSE
                 }
@@ -186,7 +183,7 @@ DEF GRABBABLE_ENVIROMENT Solid {
               selfCollision TRUE
             }
             DEF HUMAN_1 Robot {
-              translation -3.76997 -3.24 0
+              translation -3.76997 -3.24 0.85
               rotation 0 0 -1 -5.307179586466759e-06
               children [
                 Shape {
@@ -195,10 +192,9 @@ DEF GRABBABLE_ENVIROMENT Solid {
                     roughness 1
                     metalness 0
                   }
-                  geometry Mesh {
-                    url [
-                      "../source files/meshes/human_base.dae"
-                    ]
+                  geometry Capsule {
+                    height 1.74
+                    radius 0.15
                   }
                   isPickable FALSE
                 }

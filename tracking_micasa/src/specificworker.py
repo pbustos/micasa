@@ -83,9 +83,9 @@ class SpecificWorker(GenericWorker):
             "laundry":QRect(QPoint(3750,8660),QSize(2750,1170)),
             "terrace":QRect(QPoint(3220,0),QSize(2650,1200)),
             "bathroom_1": QRect(QPoint(0, 3250), QSize(2200, 2100)),
-            "kitchen": QRect(QPoint(6500, 6480), QSize(2700, 3350)),
+            "kitchen": QRect(QPoint(6500, 6980), QSize(2700, 2850)),
             "living_room": QRect(QPoint(5870, 0), QSize(4130, 4980)),
-            "corridor": QPolygonF(),
+            "corridor": QRect(QPoint(), QSize()),
             "room_1": QRect(QPoint(0, 0), QSize(3220, 3250)),
             "room_2": QRect(QPoint(0, 7000), QSize(3750, 2830))
         }
@@ -130,45 +130,45 @@ class SpecificWorker(GenericWorker):
         # print("secciones creadas")
         #
         #
-        # scale_factor = 10  # Factor de escala para ajustar las dimensiones a un tamaño razonable
-        # image = QImage(1200, 1200, QImage.Format_ARGB32)
-        # image.fill(QColor("white"))  # Rellenar de blanco
-        #
-        # painter = QPainter(image)
-        # painter.setPen(QPen(QColor("black"), 2))  # Configurar el lápiz
-        # painter.setFont(QFont('Arial', 10))
-        # # for id, name in self.sections.items():
-        # #     shape = self.sections[name]
-        # #     # Aquí va tu código para manejar la forma, e.g., dibujarla
-        # #     print(f"Dibujando {name} con forma {shape}")
-        #
-        # print("Imagen creada")
-        # # Dibujar cada sección
-        # # for name, shape in self.sections.items():
-        # #     print("Entra al bucle")
-        # #     print(f"Dibujando {name} con forma {shape}")
-        # #         # Escalar y dibujar QRect
-        # #     scaled_rect = QRect(shape.x() // scale_factor, shape.y() // scale_factor, shape.width() // scale_factor,
-        # #                             shape.height() // scale_factor)
-        # #     painter.drawRect(scaled_rect)
-        # #     painter.drawText(scaled_rect.adjusted(5, 5, -5, -5), Qt.AlignCenter, name)
-        # #     print("------- llega a QRect ----------------")
-        #
-        # for name, shape in self.sections.items():
+        scale_factor = 10  # Factor de escala para ajustar las dimensiones a un tamaño razonable
+        image = QImage(1200, 1200, QImage.Format_ARGB32)
+        image.fill(QColor("white"))  # Rellenar de blanco
+
+        painter = QPainter(image)
+        painter.setPen(QPen(QColor("black"), 2))  # Configurar el lápiz
+        painter.setFont(QFont('Arial', 10))
+        # for id, name in self.sections.items():
+        #     shape = self.sections[name]
+        #     # Aquí va tu código para manejar la forma, e.g., dibujarla
         #     print(f"Dibujando {name} con forma {shape}")
-        #     if isinstance(shape, QRect):
-        #         scaled_rect = QRect(shape.x() // scale_factor, shape.y() // scale_factor,
-        #                             shape.width() // scale_factor, shape.height() // scale_factor)
-        #         painter.drawRect(scaled_rect)
-        #         painter.drawText(scaled_rect.adjusted(5, 5, -5, -5), Qt.AlignCenter, name)
-        #     elif isinstance(shape, QPolygonF):
-        #         scaled_polygon = QPolygonF([QPoint(pt.x() // scale_factor, pt.y() // scale_factor) for pt in shape])
-        #         painter.drawPolygon(scaled_polygon)
-        #
-        # painter.end()  # Finalizar el dibujo
-        #
-        # # Guardar la imagen
-        # image.save("plano_vivienda.png")
+
+        print("Imagen creada")
+        # Dibujar cada sección
+        # for name, shape in self.sections.items():
+        #     print("Entra al bucle")
+        #     print(f"Dibujando {name} con forma {shape}")
+        #         # Escalar y dibujar QRect
+        #     scaled_rect = QRect(shape.x() // scale_factor, shape.y() // scale_factor, shape.width() // scale_factor,
+        #                             shape.height() // scale_factor)
+        #     painter.drawRect(scaled_rect)
+        #     painter.drawText(scaled_rect.adjusted(5, 5, -5, -5), Qt.AlignCenter, name)
+        #     print("------- llega a QRect ----------------")
+
+        for name, shape in self.sections.items():
+            print(f"Dibujando {name} con forma {shape}")
+            if isinstance(shape, QRect):
+                scaled_rect = QRect(shape.x() // scale_factor, shape.y() // scale_factor,
+                                    shape.width() // scale_factor, shape.height() // scale_factor)
+                painter.drawRect(scaled_rect)
+                painter.drawText(scaled_rect.adjusted(5, 5, -5, -5), Qt.AlignCenter, name)
+            elif isinstance(shape, QPolygonF):
+                scaled_polygon = QPolygonF([QPoint(pt.x() // scale_factor, pt.y() // scale_factor) for pt in shape])
+                painter.drawPolygon(scaled_polygon)
+
+        painter.end()  # Finalizar el dibujo
+
+        # Guardar la imagen
+        image.save("plano_vivienda.jpeg")
 
 
 
@@ -320,8 +320,9 @@ class SpecificWorker(GenericWorker):
                     print( f"El {humano_id} que está en el punto ({x}, {y}) está dentro de la sección '{fence}'")
                     return fence
 
-        print( f"El {humano_id} que está en el punto ({x}, {y}) no está dentro de ninguna sección")
-        return False
+        print( f"El {humano_id} que está en el punto ({x}, {y}) está en el corridor")
+        return "corridor"
+
 
     def update_person_tag_edge(self, humano, fence, x, y):
         """
