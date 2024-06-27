@@ -7,15 +7,15 @@ WorldInfo {
   basicTimeStep 100
 }
 Viewpoint {
-  orientation 0.42293122018335055 -0.4078768761417921 -0.8091758998530763 4.666734061127466
-  position 1.9534944030710828 -19.557539706324917 18.658364567067746
+  orientation -0.43628465617924417 0.2540718838432953 0.8631935916252379 1.8272767989711942
+  position 7.504596747855722 -21.521663284622612 17.96904109693346
 }
 DEF GRABBABLE_ENVIROMENT Solid {
   translation 5.18 -5.98 0
   children [
     DEF PISO Group {
       children [
-        Shape {
+        DEF FORNITURES Shape {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
@@ -26,10 +26,9 @@ DEF GRABBABLE_ENVIROMENT Solid {
           }
           geometry Mesh {
             url [
-              "../source files/meshes/fornitures.dae"
+              "../source files/meshes/fornitures.obj"
             ]
           }
-          castShadows FALSE
         }
         DEF FONITURES_KITCHEN Shape {
           appearance PBRAppearance {
@@ -42,7 +41,7 @@ DEF GRABBABLE_ENVIROMENT Solid {
           }
           geometry Mesh {
             url [
-              "../source files/meshes/fornitures_kitchen.dae"
+              "../source files/meshes/fornitures_kitchen.obj"
             ]
           }
           castShadows FALSE
