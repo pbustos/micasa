@@ -29,6 +29,10 @@ from PySide2.QtCore import QRect, QPointF, QPoint, QSize, Qt
 import sys
 import socketio
 
+from gtts import gTTS
+from pydub import AudioSegment
+from pydub.playback import play
+
 import json
 import cv2
 import numpy as np
@@ -40,6 +44,8 @@ console = Console(highlight=False)
 
 from pydsr import *
 import Ice
+
+import subprocess
 
 
 # If RoboComp was compiled with Python bindings you can use InnerModel in Python
@@ -313,7 +319,6 @@ class SpecificWorker(GenericWorker):
             if isinstance(shape, QRect):
                 if shape.contains(point) == True:
                     print( f"El {humano_id} que está en el punto ({x}, {y}) está dentro de la sección '{fence}'")
-
                     return fence
             elif isinstance(shape, QPolygonF):
                 if shape.containsPoint(point,Qt.FillRule.OddEvenFill) == True:  # Qt.FillRule puede ser OddEvenFill o WindingFill
@@ -356,6 +361,24 @@ class SpecificWorker(GenericWorker):
                 print(actual_parent_node.name,'dklgasladhñls')
                 # If person node parent node changes (the person changes of room), update the parent node
                 if actual_parent_node.name != corresponding_key:
+
+                    #COmprueba que si la estancia nueva es igual a cocina, en cuyo caso genera un audio de bienvenida a la cocina
+                    if corresponding_key == "kitchen":
+                        audio_path = os.path.join('./static/audio', f"bienvenida_{person_node.id}.mp3")
+
+                        absolute_audio_path = os.path.abspath(audio_path)
+                        print(f"Ruta absoluta del archivo de audio: {absolute_audio_path}")
+                        tts = gTTS(text=f"Bienvenido a la cocina {person_node.name}", lang='es')
+                        print("AUDIO BIENVENIDA GENERADO")
+
+                        tts.save(audio_path)
+
+                        audio = AudioSegment.from_file(audio_path)
+                        play(audio)
+                        # Lanzar el script de Flask en un proceso separado
+                        subprocess.Popen(["python3", "./Mi_Casa_app/app.py"])
+
+
                     new_parent_node=self.g.get_node(corresponding_key)
                     print(actual_parent_node.name, "is not", corresponding_key)
                     self.g.delete_edge(parent_node_id, person_node.id, "RT")
